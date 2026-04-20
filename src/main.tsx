@@ -1,3 +1,8 @@
+// Polyfill process for browser environment at the absolute top
+if (typeof window !== 'undefined' && !window.process) {
+  (window as any).process = { env: {} };
+}
+
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';

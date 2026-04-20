@@ -1,6 +1,17 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let genAI: GoogleGenAI | null = null;
+
+function getGenAI() {
+  if (!genAI) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not defined");
+    }
+    genAI = new GoogleGenAI({ apiKey });
+  }
+  return genAI;
+}
 
 export interface ExtractedEvent {
   title: string;
@@ -15,6 +26,7 @@ export interface ExtractedEvent {
 
 export async function parseDayPlan(paragraph: string): Promise<ExtractedEvent[]> {
   const model = "gemini-3-flash-preview";
+  const genAI = getGenAI();
   
   const prompt = `Analyze the following paragraph describing a person's day and extract all tasks, meetings, and schedules. 
   For each item found, identify:
@@ -28,7 +40,7 @@ export async function parseDayPlan(paragraph: string): Promise<ExtractedEvent[]>
   
   Text: "${paragraph}"`;
 
-  const response = await ai.models.generateContent({
+  const response = await genAI.models.generateContent({
     model,
     contents: prompt,
     config: {
