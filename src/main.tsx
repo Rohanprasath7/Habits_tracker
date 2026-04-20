@@ -10,9 +10,10 @@ import './index.css';
 
 try {
   createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
+    <div style={{ padding: '50px', fontFamily: 'sans-serif' }}>
+      <h1>Bare Minimum Test</h1>
+      <p>If you see this, the environment is working.</p>
+    </div>
   );
 } catch (error: any) {
   console.error("Critical boot error:", error);
