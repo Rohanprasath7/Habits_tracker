@@ -88,8 +88,10 @@ export default function App() {
       
       if (user) {
         // Request notification permission
-        if (Notification.permission === 'default') {
-          Notification.requestPermission();
+        if (typeof Notification !== 'undefined') {
+          if (Notification.permission === 'default') {
+            Notification.requestPermission();
+          }
         }
 
         const storedToken = sessionStorage.getItem('google_access_token');

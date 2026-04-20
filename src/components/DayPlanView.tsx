@@ -24,6 +24,17 @@ import { listGoogleCalendarEvents } from '../lib/calendar';
 import { db } from '../lib/firebase';
 import { collection, query, where, onSnapshot, doc, setDoc, deleteDoc, getDocs } from 'firebase/firestore';
 
+// Client-side Gemini instance helper
+let genAIInstance: GoogleGenAI | null = null;
+function getGenAI() {
+  if (!genAIInstance) {
+    const key = process.env.GEMINI_API_KEY;
+    if (!key) throw new Error("GEMINI_API_KEY missing");
+    genAIInstance = new GoogleGenAI({ apiKey: key });
+  }
+  return genAIInstance;
+}
+
 interface DayPlanViewProps {
   habits: Habit[];
   tasks: Task[];
@@ -99,7 +110,7 @@ export default function DayPlanView({ habits, tasks, logs, user, accessToken }: 
   const generateAIPan = async () => {
     setIsPlanning(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const ai = getGenAI();
       
       const todayTasks = tasks.filter(t => isSameDay(parseISO(t.dueDate), today));
       const activeHabits = habits; // Usually daily

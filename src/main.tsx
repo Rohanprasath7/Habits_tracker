@@ -8,8 +8,19 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+try {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+} catch (error: any) {
+  console.error("Critical boot error:", error);
+  document.body.innerHTML = `
+    <div style="padding: 20px; font-family: sans-serif; color: #ef4444; background: #fee2e2; height: 100vh;">
+      <h1 style="font-size: 20px; margin-bottom: 10px;">Startup Error</h1>
+      <pre style="white-space: pre-wrap; font-size: 12px; line-height: 1.5;">${error.message}\n\n${error.stack}</pre>
+      <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer;">Reload App</button>
+    </div>
+  `;
+}

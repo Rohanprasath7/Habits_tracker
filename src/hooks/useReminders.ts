@@ -21,7 +21,7 @@ export function useReminders(tasks: Task[], onReminder: (task: Task) => void) {
             onReminder(task);
             
             // Trigger Browser Push Notification if permission granted
-            if (Notification.permission === 'granted') {
+            if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
               new Notification('Aura Reminder', {
                 body: task.title,
                 icon: '/vite.svg', // Default icon, can be customized
