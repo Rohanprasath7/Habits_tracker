@@ -1,0 +1,38 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  *, html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    @apply bg-[#F8F9FA] text-gray-900 antialiased;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    animation-delay: var(--animation-delay, 0ms);
+    animation-duration: var(--animation-duration, 500ms);
+    animation-fill-mode: both;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
